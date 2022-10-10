@@ -22,4 +22,3 @@ function createGalleryMarkup(galleryItems) {
 
 new SimpleLightbox('.gallery a');
 
-console.log(galleryItems);
