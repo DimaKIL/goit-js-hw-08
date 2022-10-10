@@ -6,9 +6,29 @@ const player = new VimeoPlayer(iframeRef);
 
 player.on('timeupdate', throttle(timeToUpdate, 1000));
 
-const keyContainer = 'videoplayer - current - time';
+const STORAGE_TIME = 'videoplayer - current - time';
 
-const onPlay = function(data) {
-    // data is an object containing properties specific to that event
-};
+savedVideoPlayingTime();
+
+function timeToUpdate(data) {
+  localStorage.setItem(STORAGE_TIME, JSON.stringify(data));
+}
+
+function savedVideoPlayingTime() {
+  if (!localStorage.getItem(STORAGE_TIME)) {
+    return;
+  }
+  const savedPlayedTime = JSON.parse(
+    localStorage.getItem(STORAGE_TIME)
+  ).seconds;
+
+  player.setCurrentTime(savedPlayedTime).catch(function (error) {
+    switch (error.name) {
+      case 'RangeError':
+        break;
+      default:
+        break;
+    }
+  });
+}
 
