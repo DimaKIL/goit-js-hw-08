@@ -5,15 +5,20 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
-console.log(galleryItems);
-
-
+import { galleryItems } from './gallery-items.js';
 
 const globalDiv = document.querySelector('.gallery');
-for(let galleryItem of galleryItems){
-    globalDiv.insertAdjacentHTML('beforeend',`<a class="gallery__link" onclick="return false" href="${galleryItem.original}"> <img class="gallery__image" src="${galleryItem.preview}" data-source="${galleryItem.original}"  alt="${galleryItem.description}" /></a>`);
-    console.log(globalDiv);
-}
+function createGalleryMarkup(galleryItems) {
+    return galleryItems
+      .map(({ preview, original, description }) => {
+        return `
+        <div class="gallery__item"><a class="gallery__link" onclick="return false" href="${original}"> <img class="gallery__image" src="${preview}" data-source="${original}"  alt="${description}" /></a></div>
+      `;
+      })
+      .join("");
+  }
+
+  globalDiv.innerHTML = createGalleryMarkup(galleryItems);
 
 new SimpleLightbox('.gallery a');
 
